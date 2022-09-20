@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dayToMonthConverter</title>
+    <style>
+        body{
+            background: #000;
+            font-family: 'Courier New', Courier, monospace;
+            color: antiquewhite;
+        }
+        *{
+            font-size: 1.5rem;
+            text-align: center;
+            color: #fff;
+        }
+        input[type='submit']{
+            transition: all ease .5s;
+            background: rgb(131, 131, 131);
+            border: 2px solid rgb(131, 131, 131);
+        }
+        input[type='submit']:hover{
+            transition: all ease .5s;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <section style="display: flex; height: 90vh; justify-content: center; align-items: center; flex-direction: column;">
+        <h1 style="text-transform: uppercase; letter-spacing: 2px; ">
+            CONVERT DAYS TO MONTHS AND DAYS
+        </h1>
+        <input id="input" style="border-radius: 60px; padding: 15px 20px; background: transparent; border: 2px solid #fff;" placeholder="Type any number" type="text">
+
+        <input id="submit" style="border-radius: 60px; padding: 5px 40px; margin-top: 10px; cursor: pointer; " type="submit" value="Result">
+        <h1 id="result"></h1>
+    </section>
+    <script>
+        //select all html element
+        let submit = document.querySelector("#submit");
+        let result = document.querySelector("#result");
+        
+        //click event
+        submit.addEventListener("click",function () {
+            let input = document.querySelector("#input").value;
+            input = parseInt(input);
+            if (input > 30) {          
+                //Mathmatical operation     
+                let remainingDay = input % 30;
+                let month = input / 30.416666666666668;
+
+                month = Math.floor(month);
+                //output
+                result.innerHTML = `Converte ${input} Days =  ${month} Month ${remainingDay} Day`;
+                result.style.color = 'green'
+            } else {
+                result.innerHTML= "30 Days make 1 month. you are enter less then 30 day! Try Again";
+                result.style.color = 'red';
+            }
+
+        })
+        
+    </script>
+</body>
+</html>

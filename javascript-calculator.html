@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            font-family: Gotham Rounded, sans-serif;
+            font-weight: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, rgb(100, 100, 100), rgb(65, 65, 65));
+        }
+
+        .calculator-grid {
+            display: grid;
+            justify-content: center;
+            align-content: center;
+            min-height: 100vh;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+        }
+
+        .calculator-grid>button {
+            cursor: pointer;
+            font-size: 2rem;
+            outline: none;
+            background-color: rbga(255, 255, 255, 0.75);
+            border-radius: 10px;
+            border: none;
+            background-color: #383838;
+            color: #ececec;
+            margin: .1rem;
+            box-shadow: 0 0 9px rgba(74, 61, 255, 0.5);
+        }
+
+        .calculator-grid>button:hover,
+        .calculator-grid>button:focus {
+            background-color: #525252;
+            box-shadow: inset 0px 0px 20px 3px rgba(74, 61, 255, 0.5);
+        }
+
+        .span-two {
+            grid-column: span 2;
+            color: #1f2c00 !important;
+            background-color: #ececec !important;
+        }
+        .span-two:hover{
+            background: #000 !important;
+            color: #ececec !important;
+            box-shadow: none !important;
+        }
+        .output {
+            grid-column: 1 / -1;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            flex-direction: column;
+            padding: 10px;
+            word-wrap: break-word;
+            word-break: break-all;
+            border-radius: 10px;
+        }
+
+        .output .previous-operand {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1.5rem;
+        }
+
+        .output .current-operand {
+            color: white;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-grid">
+        <div class="output">
+            <div class="previous-operand"></div>
+            <div class="current-operand"></div>
+        </div>
+        
+        <button class="clear span-two">AC</button>
+        <button class="del">C</button>
+        <button class="operator">/</button>
+        <button class="number">1</button>
+        <button class="number">2</button>
+        <button class="number">3</button>
+        <button class="operator">*</button>
+        <button class="number">4</button>
+        <button class="number">5</button>
+        <button class="number">6</button>
+        <button class="operator">+</button>
+        <button class="number">7</button>
+        <button class="number">8</button>
+        <button class="number">9</button>
+        <button class="operator">-</button>
+        <button class="number">0</button>
+        <button class="operator">.</button>
+        <button class="calculate span-two">=</button>
+    </div>
+    <script>
+           
+        let preOutput = document.querySelector('.previous-operand');
+        const currOutput = document.querySelector('.current-operand');
+        // ****** don't use `id` for multiply elements
+        const operator = document.querySelectorAll('.operator');
+        const number = document.querySelectorAll('.number');
+        // *******
+        const clear = document.querySelector('.clear');
+        let calculate = document.querySelector('.calculate');
+        const del = document.querySelector('.del');
+        const fullDisly = document.querySelector('.output');
+
+
+        // select all number and operator element in together as a node list
+        function numberDisplay(numOutput) {
+            for (let i = 0; i < numOutput.length; i++) {
+                const element = numOutput[i];
+
+                element.addEventListener("click", () => {
+                    preOutput.innerHTML = preOutput.innerHTML + element.innerHTML;
+
+                    // ****** It doesn't need to be returned 
+                    // return numOutput;
+                    // *******
+                })
+            }
+        }
+
+        numberDisplay(number);
+        numberDisplay(operator);
+
+        // calculate all display element 
+        calculate.addEventListener("click", () => {
+
+            // ********** You are changing the variable/element itself. Not its innerHTML.. It was the main problem
+            // preOutput = eval(preOutput.innerHTML);
+            // *************
+
+
+            // ***** It would be the current way. But you usually don't want to show the results in both elements. So calculating only the bottom element
+            // preOutput.innerHTML = eval(preOutput.innerHTML);
+            // *************
+
+            // show the calculation
+            currOutput.innerHTML = eval(preOutput.innerHTML);
+
+        })
+
+        // display last one element delete event 
+        del.addEventListener("click", () => {
+            preOutput.innerHTML = preOutput.innerHTML.substring(0, preOutput.innerHTML.length - 1);
+        })
+
+        // Display all element clear event 
+        clear.addEventListener("click", () => {
+
+            // ********* You are removing the elments this way.... Not the innerHTML of that elements
+            // fullDisly.innerHTML = '';
+            // ********* 
+
+            // removing element's innerHTML
+            preOutput.innerHTML = '';
+            currOutput.innerHTML = '';
+
+        });
+
+    </script>
+</body>
+
+</html>
